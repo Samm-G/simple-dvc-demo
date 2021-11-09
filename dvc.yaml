@@ -1,0 +1,38 @@
+stages:
+
+  s1_load_data:
+    cmd: python src/get_data.py --config=params.yaml
+    deps:
+    - src/get_data.py
+    - data/raw/winequality_raw.csv
+    outs:
+    - data/raw/winequality.csv
+
+  s2_split_data:
+    cmd: python src/split_data.py --config=params.yaml
+    deps:
+      # Along with split_data.py,  we are also using get_data.py.. bcz split_data.py import get_data.py
+    - src/get_data.py
+    - src/split_data.py
+    - data/raw/winequality.csv
+    outs:
+    - data/processed/train_winequality.csv
+    - data/processed/test_winequality.csv
+
+  s3_train_and_evaluate:
+    cmd: python src/train_and_evaluate.py --config=params.yaml
+    deps:
+    - data/processed/train_winequality.csv
+    - data/processed/test_winequality.csv
+    - src/get_data.py
+    - src/train_and_evaluate.py
+    params:
+    - estimators.ElasticNet.params.alpha
+    - estimators.ElasticNet.params.l1_ratio
+    metrics:
+    - report/scores.json:
+        cache: false
+    - report/params.json:
+        cache: false
+    outs:
+    - saved_models/model.joblib
