@@ -1,4 +1,17 @@
+# Local packages install
+-e .
+
+#Experimentation.
+# jupyter-lab
+
+# Third party packages install
 dvc
 dvc[gdrive]
 sklearn
 pandas
+pytest      #Test framework
+tox         #Automatic testing.
+autopep8    #Auto pep8 formatting.
+flake8      #Indentation
+flask       #Webapp 
+gunicorn    #FOr Publishing

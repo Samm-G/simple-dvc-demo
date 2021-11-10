@@ -1,7 +1,7 @@
-## Load train and test.
-## Train algo
-## Save the metrics, params
-## 
+# Load train and test.
+# Train algo
+# Save the metrics, params
+##
 
 import os
 import pandas as pd
@@ -15,16 +15,19 @@ import argparse
 import joblib
 import json
 
+
 def eval_metrics(actual, predict):
 
-    #Calc RMSE
-    rmse = mean_squared_error(actual,predict)
-    #Calc MAE
-    mae = mean_absolute_error(actual,predict)
-    #Calc R**2
-    r2 = r2_score(actual,predict)
-    
+    # Calc RMSE
+    rmse = mean_squared_error(actual, predict)
+    # Calc MAE
+    mae = mean_absolute_error(actual, predict)
+    # Calc R**2
+    r2 = r2_score(actual, predict)
+
     return rmse, mae, r2
+
+
 def train_and_evaluate(config_path):
 
     # Get Params..
@@ -50,44 +53,45 @@ def train_and_evaluate(config_path):
     train_y = train[target]
     test_y = test[target]
 
-    train_x = train.drop(target,axis=1)
-    test_x = test.drop(target,axis=1)
+    train_x = train.drop(target, axis=1)
+    test_x = test.drop(target, axis=1)
 
     # Init.
     lr = ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=random_state)
     # Fit.
-    lr.fit(train_x,train_y)
+    lr.fit(train_x, train_y)
     # Predict.
     predicted_qualities = lr.predict(test_x)
 
     # Calculate: (rmse, mae, r2)
-    rmse, mae, r2 = eval_metrics(test_y,predicted_qualities)
+    rmse, mae, r2 = eval_metrics(test_y, predicted_qualities)
 
-    print('Metrics: ',rmse, mae, r2)
+    print('Metrics: ', rmse, mae, r2)
 
-    #Dump scores into the JSONs..
+    # Dump scores into the JSONs..
     with open(scores_file, 'w') as f:
         scores = {
-            'rmse':rmse,
-            'mae':mae, 
-            'r2':r2
+            'rmse': rmse,
+            'mae': mae,
+            'r2': r2
         }
-        json.dump(scores,f, indent= 4)
+        json.dump(scores, f, indent=4)
 
     with open(params_file, 'w') as f:
         params = {
-            'alpha':alpha,
-            'l1_ratio':l1_ratio
+            'alpha': alpha,
+            'l1_ratio': l1_ratio
         }
-        json.dump(params,f, indent= 4)
+        json.dump(params, f, indent=4)
 
     os.makedirs(model_dir, exist_ok=True)
-    model_path = os.path.join(model_dir,'model.joblib')
+    model_path = os.path.join(model_dir, 'model.joblib')
 
     joblib.dump(lr, model_path)
 
+
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
-    args.add_argument('--config',default='params.yaml')
+    args.add_argument('--config', default='params.yaml')
     parsed_args = args.parse_args()
     train_and_evaluate(config_path=parsed_args.config)
