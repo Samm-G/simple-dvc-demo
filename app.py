@@ -39,7 +39,7 @@ def api_response(request):
         return response
     except Exception as e:
         print(e)
-        error = {'error':'Something went wrong! Try Again!'}
+        error = {'error':'Something went wrong! Try!'}
         return error
     pass
 
