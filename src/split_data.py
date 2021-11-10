@@ -13,24 +13,23 @@ def split_and_saved_data(config_path):
 
     # Get Params..
     config = read_params(config_path)
-    test_data_path = config['split_data']['test_path']
-    train_data_path = config['split_data']['train_path']
-    raw_data_path = config['load_data']['raw_dataset_csv']
-    split_ratio = config['split_data']['test_size']
-    random_state = config['base']['random_state']
+    test_data_path = config["split_data"]["test_path"]
+    train_data_path = config["split_data"]["train_path"]
+    raw_data_path = config["load_data"]["raw_dataset_csv"]
+    split_ratio = config["split_data"]["test_size"]
+    random_state = config["base"]["random_state"]
 
     # Read Data..
-    df = pd.read_csv(raw_data_path, sep=',')
+    df = pd.read_csv(raw_data_path, sep=",")
     # Train Test Split..
-    train, test = train_test_split(
-        df, test_size=split_ratio, random_state=random_state)
+    train, test = train_test_split(df, test_size=split_ratio, random_state=random_state)
     # Store Data..
-    train.to_csv(train_data_path, sep=',', index=False, encoding='utf-8')
-    test.to_csv(test_data_path, sep=',', index=False, encoding='utf-8')
+    train.to_csv(train_data_path, sep=",", index=False, encoding="utf-8")
+    test.to_csv(test_data_path, sep=",", index=False, encoding="utf-8")
 
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
-    args.add_argument('--config', default='params.yaml')
+    args.add_argument("--config", default="params.yaml")
     parsed_args = args.parse_args()
     split_and_saved_data(config_path=parsed_args.config)
