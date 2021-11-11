@@ -88,7 +88,8 @@ def api_response(dict_request):
     # request.
     try:
         if validate_input(dict_request):
-            data = np.array([list(dict_request.values())])
+            
+            data = np.array(list(dict_request.values()))
             response = predict(data)
             response = {"response": response}
             return response
