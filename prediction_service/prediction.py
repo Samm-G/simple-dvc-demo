@@ -88,8 +88,7 @@ def api_response(dict_request):
     # request.
     try:
         if validate_input(dict_request):
-            
-            data = np.array(list(dict_request.values()))
+            data = np.array([list(dict_request.values())])
             response = predict(data)
             response = {"response": response}
             return response
@@ -98,8 +97,5 @@ def api_response(dict_request):
         return response
     except NotInColumns as e:
         # Gets a nice {'a','b'} style string using set.
-        response = {
-            "response": str(e),
-            "The expected columns are: ": str(set(get_schema().keys())),
-        }
+        response = {"response": str(e), "The expected columns are: ": str(set(get_schema().keys()))}
         return response
