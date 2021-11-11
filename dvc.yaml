@@ -37,8 +37,8 @@ stages:
     #     cache: false
     # - report/params.json:
     #     cache: false
-    # outs:
-    # - saved_models/model.joblib
+    outs:
+    - saved_models/model.joblib
 
 # No need of dependencies.. run every time.
   s4_log_production_model:
