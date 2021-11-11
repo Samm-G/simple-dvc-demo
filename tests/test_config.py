@@ -50,32 +50,38 @@ input_data = {
 
 TARGET_range = {"min": 3.0, "max": 8.0}
 
+
 def test_form_response_correct_range(data=input_data["correct_range"]):
     res = form_response(data)
     assert TARGET_range["min"] <= res <= TARGET_range["max"]
     pass
+
 
 def test_api_response_correct_range(data=input_data["correct_range"]):
     res = api_response(data)
     assert TARGET_range["min"] <= res["response"] <= TARGET_range["max"]
     pass
 
+
 def test_form_response_incorrect_range(data=input_data["incorrect_range"]):
     with pytest.raises(prediction_service.prediction.NotInRange):
         res = form_response(data)
     pass
 
+
 def test_api_response_incorrect_range(data=input_data["incorrect_range"]):
     res = api_response(data)
-    assert res['response'] == prediction_service.prediction.NotInRange().message
+    assert res["response"] == prediction_service.prediction.NotInRange().message
     pass
+
 
 def test_form_response_incorrect_col(data=input_data["incorrect_col"]):
     with pytest.raises(prediction_service.prediction.NotInColumns):
         res = form_response(data)
     pass
 
+
 def test_api_response_incorrect_col(data=input_data["incorrect_col"]):
     res = api_response(data)
-    assert res['response'] == prediction_service.prediction.NotInColumns().message
+    assert res["response"] == prediction_service.prediction.NotInColumns().message
     pass

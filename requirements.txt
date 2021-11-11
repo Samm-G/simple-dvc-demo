@@ -17,3 +17,5 @@ black       #Auto-Formatting
 black[jupyter]  #Auto-Formatting - for jupyter.
 flask       #Webapp 
 gunicorn    #FOr Publishing
+
+mlflow      #For CI-CD, and Model tracking.
