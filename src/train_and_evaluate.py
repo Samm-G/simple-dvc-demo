@@ -89,7 +89,7 @@ def train_and_evaluate(config_path):
         # Get the url from app, and log the model, if path is not a file, else load model.
         tracking_url_type_store = urlparse(mlflow.get_artifact_uri()).scheme
         if tracking_url_type_store != "file":
-            # TODO: Create Signature.. (Later)
+            ## TODO: Create Signature.. (Later)
             signature = infer_signature(train_x, predicted_qualities)
             mlflow.sklearn.log_model(
                 lr_model,
